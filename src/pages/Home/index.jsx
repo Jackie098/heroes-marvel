@@ -6,14 +6,45 @@ export function Home() {
   const [heroes, setHeroes] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
+  const [name, setName] = useState("");
+
   useEffect(() => {
     const marvelHeroesService = new MarvelHeroesService();
 
-    marvelHeroesService.getHeroes().then((response) => {
-      setHeroes(response.data.results);
-      setIsLoading(false);
-    });
+    marvelHeroesService
+      .getHeroes()
+      .then((response) => {
+        console.log("🚀 ~ .then ~ response:", response);
+        setHeroes(response.data.results);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   }, []);
+
+  function handleChangeName(e) {
+    setName(e.target.value);
+  }
+
+  function handleSearch(name) {
+    setIsLoading(true);
+
+    const marvelHeroesService = new MarvelHeroesService();
+
+    const params = {
+      nameStartsWith: name,
+    };
+
+    marvelHeroesService
+      .getHeroes(params)
+      .then((response) => {
+        console.log("🚀 ~ .then ~ response:", response);
+        setHeroes(response.data.results);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }
 
   if (isLoading) {
     return (
@@ -37,15 +68,23 @@ export function Home() {
         <div className="w-full flex gap-2 justify-center py-6 flex-wrap">
           <input
             type="text"
+            placeholder="Digite o nome do herói aqui..."
             className="border-2 border-black skew-x-[-12deg] pl-4"
+            onChange={handleChangeName}
           />
-          <button className="border-2 border-red-600 bg-red-600 text-white font-semibold py-2 px-3 skew-x-[-12deg] uppercase hover:bg-red-700 focus:bg-red-800">
+          <button
+            onClick={() => handleSearch(name)}
+            className="border-2 border-red-600 bg-red-600 text-white font-semibold py-2 px-3 skew-x-[-12deg] uppercase hover:bg-red-700 focus:bg-red-800"
+          >
             Icon Search
           </button>
         </div>
         <div className="px-6 w-full h-full flex gap-5 justify-center flex-wrap">
-          {heroes.map((hero) => (
-            <div className="flex flex-col w-64 bg-white max-h-96 py-1 justify-between">
+          {heroes.map((hero, idx) => (
+            <div
+              key={idx}
+              className="flex flex-col w-64 bg-white max-h-96 py-1 justify-between"
+            >
               <div>
                 <div className="flex justify-between px-4">
                   {/* FIXME: Test ellipts */}
