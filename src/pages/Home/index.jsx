@@ -5,6 +5,7 @@ import { MarvelHeroesService } from "../../services/api/MarvelHeroesService";
 export function Home() {
   const [heroes, setHeroes] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [hasActiveSearch, setHasActiveSearch] = useState(false);
 
   const [name, setName] = useState("");
 
@@ -26,8 +27,10 @@ export function Home() {
     setName(e.target.value);
   }
 
-  function handleSearch(name) {
+  function handleSubmit(e, name) {
+    e.preventDefault();
     setIsLoading(true);
+    setHasActiveSearch(true);
 
     const marvelHeroesService = new MarvelHeroesService();
 
@@ -65,19 +68,33 @@ export function Home() {
   return (
     <MainTemplate>
       <div className="w-full h-full flex flex-col">
-        <div className="w-full flex gap-2 justify-center py-6 flex-wrap">
-          <input
-            type="text"
-            placeholder="Digite o nome do herói aqui..."
-            className="border-2 border-black skew-x-[-12deg] pl-4"
-            onChange={handleChangeName}
-          />
-          <button
-            onClick={() => handleSearch(name)}
-            className="border-2 border-red-600 bg-red-600 text-white font-semibold py-2 px-3 skew-x-[-12deg] uppercase hover:bg-red-700 focus:bg-red-800"
+        <div className="w-full flex">
+          <form
+            onSubmit={(e) => handleSubmit(e, name)}
+            className="w-full flex gap-2 justify-center py-6 flex-wrap mb-8"
           >
-            Icon Search
-          </button>
+            <input
+              type="text"
+              placeholder="Digite o nome do herói aqui..."
+              className="border-2 border-black skew-x-[-12deg] pl-4"
+              onChange={handleChangeName}
+            />
+            <button
+              type="submit"
+              // onClick={() => handleSearch(name)}
+              className="border-2 border-red-600 bg-red-600 text-white font-semibold py-2 px-3 skew-x-[-12deg] uppercase hover:bg-red-700 focus:bg-red-800"
+            >
+              Icon Search
+            </button>
+            {hasActiveSearch && (
+              <button
+                onClick={(e) => handleSubmit(e, undefined)}
+                className="text-white font-normal italic pu-2 px-3 underline"
+              >
+                Clear Search X
+              </button>
+            )}
+          </form>
         </div>
         <div className="px-6 w-full h-full flex gap-5 justify-center flex-wrap">
           {heroes.map((hero, idx) => (
