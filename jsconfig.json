@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "module": "ESNext",
+    "target": "ES6",
+    "checkJs": true,  // Ativa verificação de erros no JavaScript
+    "jsx": "react",
+    "baseUrl": "./src" // Configure a base para os imports
+  },
+  "include": ["src/**/*"]
+}
