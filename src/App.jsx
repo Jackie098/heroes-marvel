@@ -1,8 +1,13 @@
 import { RouterProvider } from "react-router-dom";
-import { router } from "./routes";
+import { router } from "./routes/index.jsx";
+import { MainTemplate } from "./templates/MainTemplate.jsx";
 
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <MainTemplate>
+      <RouterProvider router={router} />;
+    </MainTemplate>
+  );
 }
 
 export default App;
