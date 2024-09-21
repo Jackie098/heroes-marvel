@@ -101,6 +101,7 @@ export function Home() {
   }
 
   function handlePageClick(page) {
+    setHasActiveSearch(true);
     setCurrentPage(page);
   }
 
@@ -201,7 +202,7 @@ export function Home() {
               onClick={(e) => handleClearSearch()}
               className="text-white font-normal italic pu-2 px-3 underline"
             >
-              Clear Search X
+              Clear Search
             </button>
           )}
         </form>
