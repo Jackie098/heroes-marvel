@@ -1,5 +1,5 @@
 // @ts-nocheck
-import axios from "../../../../../../../node_modules/axios/index";
+import axios from "axios";
 import CryptoJS from "crypto-js";
 
 const BASE_URL = import.meta.env.VITE_MARVEL_BASE_URL;
