@@ -1,26 +1,88 @@
 import { useEffect, useState } from "react";
 import { MarvelHeroesService } from "../../services/api/MarvelHeroesService.js";
+import { Pagination } from "../../components/Pagination/index.jsx";
+
+const AMOUNT_PER_PAGE = 10;
 
 export function Home() {
   const [heroes, setHeroes] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [hasActiveSearch, setHasActiveSearch] = useState(false);
+  // const [pagination, setPagination] = useState({
+  //   totalPages: 1,
+  //   count: AMOUNT_PER_PAGE,
+  //   limit: AMOUNT_PER_PAGE,
+  //   offset: 0,
+  //   total: 0,
+  // });
+
+  const [totalPages, setTotalPages] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const [name, setName] = useState("");
 
   useEffect(() => {
     const marvelHeroesService = new MarvelHeroesService();
 
+    const params = {
+      offset: (currentPage - 1) * AMOUNT_PER_PAGE, //pagination.offset,
+      limit: AMOUNT_PER_PAGE, //pagination.limit,
+    };
+
     marvelHeroesService
-      .getHeroes()
+      .getHeroes(params)
       .then((response) => {
-        console.log("🚀 ~ .then ~ response:", response);
         setHeroes(response.data.results);
+
+        if (response.data.total > 0) {
+          setTotalPages(Math.floor(response.data.total / response.data.count));
+        }
+        // setPagination((prev) => ({
+        //   ...prev,
+        //   totalPages: Math.floor(response.data.total / response.count),
+        //   limit: response.data.limit,
+        //   offset: response.data.offset,
+        // }));
       })
       .finally(() => {
         setIsLoading(false);
       });
   }, []);
+
+  useEffect(() => {
+    setIsLoading(true);
+    const marvelHeroesService = new MarvelHeroesService();
+    //             offset - limit
+    // pagina: 1  => - 0 - 9
+    // pagina: 2  => - 10 - 19
+    // pagina: 3 => - 20 - 29
+
+    const offset = (currentPage - 1) * AMOUNT_PER_PAGE; //0 10 20
+    const limit = AMOUNT_PER_PAGE; //10 20 30
+
+    // setPagination((prev) => ({
+    //   ...prev,
+    //   offset,
+    //   limit,
+    // }));
+
+    const queryParams = {
+      offset,
+      limit,
+    };
+
+    marvelHeroesService
+      .getHeroes(queryParams)
+      .then((response) => {
+        setHeroes(response.data.results);
+        if (response.data.total > 0) {
+          setTotalPages(Math.floor(response.data.total / response.data.count));
+        }
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }, [currentPage]);
 
   function handleChangeName(e) {
     setName(e.target.value);
@@ -28,6 +90,7 @@ export function Home() {
 
   function handleSubmit(e, name) {
     e.preventDefault();
+
     setIsLoading(true);
     setHasActiveSearch(true);
 
@@ -35,6 +98,8 @@ export function Home() {
 
     const params = {
       nameStartsWith: name,
+      offset: (currentPage - 1) * AMOUNT_PER_PAGE,
+      limit: AMOUNT_PER_PAGE,
     };
 
     marvelHeroesService
@@ -42,15 +107,22 @@ export function Home() {
       .then((response) => {
         console.log("🚀 ~ .then ~ response:", response);
         setHeroes(response.data.results);
+        if (response.data.total > 0) {
+          setTotalPages(Math.floor(response.data.total / response.data.count));
+        }
       })
       .finally(() => {
         setIsLoading(false);
       });
   }
 
+  function handlePageClick(page) {
+    setCurrentPage(page);
+  }
+
   if (isLoading) {
     return (
-      <div className="w-full h-full flex flex-col justify-center items-center">
+      <div className="w-full h-full flex flex-col justify-center items-center text-white font-bold">
         Carregando...
       </div>
     );
@@ -58,7 +130,7 @@ export function Home() {
 
   if (heroes.length === 0) {
     return (
-      <div className="w-full h-full flex flex-col justify-center items-center">
+      <div className="w-full h-full flex flex-col justify-center items-center text-white font-bold">
         Não há dados carregados!
       </div>
     );
@@ -69,7 +141,7 @@ export function Home() {
       <div className="w-full flex">
         <form
           onSubmit={(e) => handleSubmit(e, name)}
-          className="w-full flex gap-2 justify-center py-6 flex-wrap mb-8"
+          className="w-full flex gap-2 justify-center py-6 flex-wrap"
         >
           <input
             type="text"
@@ -79,7 +151,6 @@ export function Home() {
           />
           <button
             type="submit"
-            // onClick={() => handleSearch(name)}
             className="border-2 border-red-600 bg-red-600 text-white font-semibold py-2 px-3 skew-x-[-12deg] uppercase hover:bg-red-700 focus:bg-red-800"
           >
             Icon Search
@@ -93,6 +164,14 @@ export function Home() {
             </button>
           )}
         </form>
+        <div></div>
+      </div>
+      <div className="w-full flex justify-center mb-7">
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          handlePageClick={handlePageClick}
+        />
       </div>
       <div className="px-6 w-full h-full flex gap-5 justify-center flex-wrap">
         {heroes.map((hero, idx) => (
