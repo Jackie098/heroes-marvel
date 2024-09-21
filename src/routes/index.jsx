@@ -1,6 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
-import { Home } from "../pages/Home";
-import { HeroDetails } from "../pages/HeroDetails";
+import { Home } from "../pages/Home/index.jsx";
+import { HeroDetails } from "../pages/HeroDetails/index.jsx";
 
 const routes = [
   {
