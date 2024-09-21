@@ -1,9 +1,9 @@
-import { BaseServiceMarvel } from "../BaseServiceMarvel";
+import { BaseServiceMarvel } from "../BaseServiceMarvel.js";
 
 export class MarvelHeroesService extends BaseServiceMarvel {
   async getHeroes(params) {
     const response = await this._api.get("/characters", {
-      params: { nameStartsWith: params?.nameStartsWith },
+      params,
     });
 
     return response.data;
