@@ -1,4 +1,4 @@
-import logo from "/public/marvel_logo.svg";
+import logo from "/marvel_logo.svg";
 
 export function Header() {
   return (
