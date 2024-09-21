@@ -8,13 +8,6 @@ export function Home() {
   const [heroes, setHeroes] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [hasActiveSearch, setHasActiveSearch] = useState(false);
-  // const [pagination, setPagination] = useState({
-  //   totalPages: 1,
-  //   count: AMOUNT_PER_PAGE,
-  //   limit: AMOUNT_PER_PAGE,
-  //   offset: 0,
-  //   total: 0,
-  // });
 
   const [totalPages, setTotalPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
@@ -25,8 +18,8 @@ export function Home() {
     const marvelHeroesService = new MarvelHeroesService();
 
     const params = {
-      offset: (currentPage - 1) * AMOUNT_PER_PAGE, //pagination.offset,
-      limit: AMOUNT_PER_PAGE, //pagination.limit,
+      offset: (currentPage - 1) * AMOUNT_PER_PAGE,
+      limit: AMOUNT_PER_PAGE,
     };
 
     marvelHeroesService
@@ -37,12 +30,6 @@ export function Home() {
         if (response.data.total > 0) {
           setTotalPages(Math.floor(response.data.total / response.data.count));
         }
-        // setPagination((prev) => ({
-        //   ...prev,
-        //   totalPages: Math.floor(response.data.total / response.count),
-        //   limit: response.data.limit,
-        //   offset: response.data.offset,
-        // }));
       })
       .finally(() => {
         setIsLoading(false);
@@ -60,15 +47,10 @@ export function Home() {
     const offset = (currentPage - 1) * AMOUNT_PER_PAGE; //0 10 20
     const limit = AMOUNT_PER_PAGE; //10 20 30
 
-    // setPagination((prev) => ({
-    //   ...prev,
-    //   offset,
-    //   limit,
-    // }));
-
     const queryParams = {
       offset,
       limit,
+      nameStartsWith: name || undefined,
     };
 
     marvelHeroesService
@@ -98,8 +80,8 @@ export function Home() {
 
     const params = {
       nameStartsWith: name,
-      offset: (currentPage - 1) * AMOUNT_PER_PAGE,
       limit: AMOUNT_PER_PAGE,
+      offset: (currentPage - 1) * AMOUNT_PER_PAGE,
     };
 
     marvelHeroesService
@@ -107,7 +89,9 @@ export function Home() {
       .then((response) => {
         console.log("🚀 ~ .then ~ response:", response);
         setHeroes(response.data.results);
+
         if (response.data.total > 0) {
+          setCurrentPage(1);
           setTotalPages(Math.floor(response.data.total / response.data.count));
         }
       })
@@ -118,6 +102,14 @@ export function Home() {
 
   function handlePageClick(page) {
     setCurrentPage(page);
+  }
+
+  function handleClearSearch() {
+    setIsLoading(true);
+    setCurrentPage(1);
+    setHasActiveSearch(false);
+    setName("");
+    setIsLoading(false);
   }
 
   const LoadedCardList = () =>
@@ -193,9 +185,10 @@ export function Home() {
         >
           <input
             type="text"
+            value={name}
             placeholder="Digite o nome do herói aqui..."
-            className="border-2 border-black skew-x-[-12deg] pl-4"
             onChange={handleChangeName}
+            className="border-2 border-black skew-x-[-12deg] pl-4"
           />
           <button
             type="submit"
@@ -205,7 +198,7 @@ export function Home() {
           </button>
           {hasActiveSearch && (
             <button
-              onClick={(e) => handleSubmit(e, undefined)}
+              onClick={(e) => handleClearSearch()}
               className="text-white font-normal italic pu-2 px-3 underline"
             >
               Clear Search X
