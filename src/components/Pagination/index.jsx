@@ -21,7 +21,7 @@ function ButtonsPagination({ totalPages, currentPage, handlePageClick }) {
     buttons.push(
       <button
         key={`pagination-btn-${i}`}
-        className="bg-red-500 p-1 disabled:bg-white disabled:text-slate-900"
+        className="bg-red-600 text-white font-medium p-1 px-2 disabled:bg-white disabled:text-slate-900 disabled:skew-x-[-12deg] disabled:px-2 disabled:mx-2 disabled:font-bold disabled:text-red-700"
         disabled={i === currentPage}
         onClick={() => handlePageClick(i)}
       >
@@ -34,7 +34,7 @@ function ButtonsPagination({ totalPages, currentPage, handlePageClick }) {
     buttons.unshift(
       <button
         key={`pagination-btn-prev`}
-        className="bg-red-800 p-2"
+        className="bg-white p-2 text-black font-black"
         onClick={() => handlePageClick(startPage - 1)}
       >
         &laquo;
@@ -46,7 +46,7 @@ function ButtonsPagination({ totalPages, currentPage, handlePageClick }) {
     buttons.push(
       <button
         key={"pagination-btn-next"}
-        className="bg-red-800 p-2"
+        className="bg-white p-2 text-black font-black"
         onClick={() => handlePageClick(endPage + 1)}
       >
         &raquo;
