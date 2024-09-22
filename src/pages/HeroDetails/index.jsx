@@ -7,7 +7,6 @@ export function HeroDetails() {
 
   const [hero, setHero] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  console.log("🚀 ~ HeroDetails ~ hero:", hero);
 
   useEffect(() => {
     const marvelHeroesService = new MarvelHeroesService();
