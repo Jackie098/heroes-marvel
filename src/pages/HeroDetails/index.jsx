@@ -30,13 +30,13 @@ export function HeroDetails() {
       <div className="mt-5 h-full max-h-[450px] w-full max-w-[1200px] flex self-center justify-around flex-wrap z-10 ">
         <div className="w-full max-w-[450px] -skew-x-[12deg]">
           <img
-            src={`${hero.thumbnail.path}/standard_fantastic.jpg?apiKey=ff1bdb7e8c57dc2a2e38ed23899f3e8e`}
+            src={`${hero?.thumbnail?.path}/standard_fantastic.jpg?apiKey=ff1bdb7e8c57dc2a2e38ed23899f3e8e`}
             alt="Hero"
             className="w-full object-fill mix-blend-multiply"
           />
         </div>
         <div className="w-full max-w-[700px] bg-white p-5 -skew-x-[12deg]">
-          <h1 className="text-4xl font-bold">{hero.name}</h1>
+          <h1 className="text-4xl font-bold">{hero?.name}</h1>
           <p className="mt-5 text-2xl">{hero?.description}</p>
         </div>
       </div>
