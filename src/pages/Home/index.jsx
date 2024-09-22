@@ -1,10 +1,14 @@
 import { useEffect, useState } from "react";
-import { MarvelHeroesService } from "../../services/api/MarvelHeroesService.js";
+import { useNavigate } from "react-router-dom";
 import { Pagination } from "../../components/Pagination/index.jsx";
+import { MarvelHeroesService } from "../../services/api/MarvelHeroesService.js";
+import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 
 const AMOUNT_PER_PAGE = 10;
 
 export function Home() {
+  let navigate = useNavigate();
+
   const [heroes, setHeroes] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [hasActiveSearch, setHasActiveSearch] = useState(false);
@@ -113,6 +117,10 @@ export function Home() {
     setIsLoading(false);
   }
 
+  function handleSeeDetails(id) {
+    navigate(`/hero/${id}`);
+  }
+
   const LoadedCardList = () =>
     isLoading ? (
       <div className="w-full h-full flex flex-col justify-center items-center text-white font-bold">
@@ -127,7 +135,7 @@ export function Home() {
         {heroes.map((hero, idx) => (
           <div
             key={idx}
-            className="flex flex-col w-64 bg-white max-h-96 py-1 justify-between"
+            className="flex flex-col w-64 bg-white max-h-96 py-1 justify-between transition-all hover:scale-110 hover:cursor-pointer"
           >
             <div>
               <div className="flex justify-between px-4">
@@ -135,7 +143,7 @@ export function Home() {
                 <h4 className="size-8 font-semibold w-36 max-h-[24px] text-ellipsis overflow-hidden">
                   {hero.name}
                 </h4>
-                <span className="size-3 font-light text-slate-500 w-fit">
+                <span className="size-3 font-light text-gray-500 w-fit">
                   #{hero.id}
                 </span>
               </div>
@@ -162,7 +170,10 @@ export function Home() {
               </div>
             </div>
             <div className="flex justify-end items-end px-4 pb-2">
-              <button className="px-2 py-0.5 border-2 border-red-600 bg-red-600 text-white">
+              <button
+                onClick={() => handleSeeDetails(hero.id)}
+                className="px-2 py-0.5 border-2 border-red-600 bg-red-600 text-white hover:bg-red-700 hover:border-red-700 active:bg-gray-900 active:text-red-500 active:border-gray-900"
+              >
                 Ver detalhes
               </button>
             </div>
@@ -193,7 +204,7 @@ export function Home() {
           />
           <button
             type="submit"
-            className="border-2 border-red-600 bg-red-600 text-white font-semibold py-2 px-3 skew-x-[-12deg] uppercase hover:bg-red-700 focus:bg-red-800"
+            className="border-2 border-red-600 bg-red-600 text-white font-semibold py-2 px-3 skew-x-[-12deg] uppercase hover:border-red-700 hover:bg-red-700 active:border-red-800 active:bg-red-800"
           >
             Icon Search
           </button>
