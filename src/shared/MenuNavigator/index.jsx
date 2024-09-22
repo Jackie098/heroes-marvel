@@ -2,7 +2,6 @@ import { useLocation } from "react-router-dom";
 
 export function MenuNavigator() {
   const { pathname } = useLocation();
-  console.log("🚀 ~ Header ~ pathname:", pathname);
 
   return (
     <menu className="flex justify-center items-center gap-6 h-[50px]">
@@ -13,7 +12,7 @@ export function MenuNavigator() {
             : ""
         }`}
       >
-        <a href="">Pesquisar</a>
+        <a href="/">Pesquisar</a>
       </li>
       <li
         className={`uppercase ${

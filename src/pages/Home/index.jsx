@@ -206,7 +206,6 @@ export function Home() {
             </button>
           )}
         </form>
-        <div></div>
       </div>
       <div className="w-full flex justify-center mb-7">
         <Pagination
