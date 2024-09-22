@@ -135,7 +135,7 @@ export function Home() {
         {heroes.map((hero, idx) => (
           <div
             key={idx}
-            className="flex flex-col w-64 bg-white max-h-96 py-1 justify-between transition-all hover:scale-110 hover:cursor-pointer"
+            className="flex flex-col w-64 bg-white max-h-96 py-1 justify-between transition-all hover:scale-110"
           >
             <div>
               <div className="flex justify-between px-4">
@@ -204,9 +204,9 @@ export function Home() {
           />
           <button
             type="submit"
-            className="border-2 border-red-600 bg-red-600 text-white font-semibold py-2 px-3 skew-x-[-12deg] uppercase hover:border-red-700 hover:bg-red-700 active:border-red-800 active:bg-red-800"
+            className="border-2 border-red-600 bg-red-600 text-white font-semibold py-2 px-3 skew-x-[-12deg] uppercase flex gap-2 items-center hover:border-red-700 hover:bg-red-700 active:border-red-800 active:bg-red-800"
           >
-            Icon Search
+            <MagnifyingGlassIcon className="w-5 stroke-3" /> Search
           </button>
           {hasActiveSearch && (
             <button
