@@ -119,6 +119,7 @@ export function Home() {
 
   function handleSeeDetails(id) {
     navigate(`/hero/${id}`);
+    sessionStorage.setItem("@HeroesMarvel:heroId", id);
   }
 
   const LoadedCardList = () =>
