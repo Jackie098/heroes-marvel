@@ -1,15 +1,24 @@
 import { createBrowserRouter } from "react-router-dom";
 import { Home } from "../pages/Home/index.jsx";
 import { HeroDetails } from "../pages/HeroDetails/index.jsx";
+import { MainTemplate } from "../templates/MainTemplate.jsx";
 
 const routes = [
   {
     path: "/",
-    element: <Home />,
+    element: (
+      <MainTemplate>
+        <Home />
+      </MainTemplate>
+    ),
   },
   {
-    path: "/hero",
-    element: <HeroDetails />,
+    path: "/hero/:id",
+    element: (
+      <MainTemplate>
+        <HeroDetails />,
+      </MainTemplate>
+    ),
   },
 ];
 

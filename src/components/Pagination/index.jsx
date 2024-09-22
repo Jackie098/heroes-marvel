@@ -21,7 +21,7 @@ function ButtonsPagination({ totalPages, currentPage, handlePageClick }) {
     buttons.push(
       <button
         key={`pagination-btn-${i}`}
-        className="bg-red-600 text-white font-medium p-1 px-2 disabled:bg-white disabled:text-slate-900 disabled:skew-x-[-12deg] disabled:px-2 disabled:mx-2 disabled:font-bold disabled:text-red-700"
+        className="bg-red-600 text-white font-medium p-1 px-2 disabled:bg-white disabled:text-slate-900 disabled:skew-x-[-12deg] disabled:px-2 disabled:mx-2 disabled:font-bold"
         disabled={i === currentPage}
         onClick={() => handlePageClick(i)}
       >
